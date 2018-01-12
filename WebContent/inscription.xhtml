@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
+    <h:head>
+    		<meta charset="utf-8" />
+        <title>Signup</title>
+        <!-- bootstrap-css -->
+        <h:outputStylesheet	library = "default" name = "css/bootstrap.min.css"/> 
+        <!-- Custom CSS -->
+        <h:outputStylesheet	library = "default" name = "css/style.css"/>
+        <h:outputStylesheet	library = "default" name = "css/style-responsive.css"/>
+        <!-- font CSS -->
+		<link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'/>
+       	<!-- font-awesome icons -->
+        <h:outputStylesheet	library = "default" name = "css/font.css"/>
+        <h:outputStylesheet	library = "default" name = "css/font-awesome.css"/>
+   
+    </h:head>
+    <h:body>
+    <div class="log-w3">
+	<div class="w3layouts-main">
+		<h2>Inscription</h2>
+        	<h:form id="signup" enctype="multipart/form-data">
+        		<h:inputText a:placeholder="NOM" id="nom" value="#{inscriptionMB.utilisateur.nom}" size="20" maxlength="60"
+	        styleClass="ggg" >
+	        		<f:ajax event="blur" render="nomMessage"/>
+	        </h:inputText>
+	        <h:message id="nomMessage" for="nom" errorClass="erreur" />
+	        <br />
+	        
+	        <h:inputText a:type="email" a:placeholder="E-MAIL" id="email" value="#{inscriptionMB.utilisateur.email}" size="20" maxlength="60"
+	        styleClass="ggg" >
+	        		<f:ajax event="blur" render="emailMessage"/>
+	        		<f:validator binding="#{existenceEmailValidator}" />
+	        </h:inputText>
+	        <h:message id="emailMessage" for="email" errorClass="erreur" />
+	        <br />
+	
+	        <h:inputSecret a:placeholder="MOT DE PASSE" id="pass" value="#{inscriptionMB.utilisateur.pass}" size="20" maxlength="20"
+	        styleClass="ggg" binding="#{composantMotDePasse}">
+	        		<f:ajax event="blur" render="passMessage confirmationMessage"
+	        		execute="pass confirmation"/>
+	        </h:inputSecret>
+	        <h:message id="passMessage" for="pass" errorClass="erreur" />
+	        <br />
+	        
+	        <h:inputSecret a:placeholder="CONFIRMATION MOT DE PASSE" id="confirmation" value="#{inscriptionMB.utilisateur.pass}" size="20" maxlength="20"
+	        styleClass="ggg" >
+	        		<f:ajax event="blur" render="passMessage confirmationMessage"
+	        		execute="pass confirmation"/>
+	        		<f:validator validatorId="confirmationMotDePasseValidator" />
+	        		<f:attribute name="composantMotDePasse" value="#{composantMotDePasse}" />
+	        </h:inputSecret>
+	        <h:message id="confirmationMessage" for="confirmation" errorClass="erreur" />
+	        <br />
+	        
+	        <h:outputLabel for="fichier" style="font-weight:normal !important;text-align:left;color:#f1aea2;">Photo</h:outputLabel>
+	    		<t:inputFileUpload id="fichier" styleClass="ggg" 
+	    		value="#{inscriptionMB.utilisateur.contenu}"/>
+	    		<h:message id="fichierMessage" for="fichier" errorClass="erreur" />
+	        <br />
+	    		
+	        <h:messages globalOnly="true" infoClass="info" errorClass="erreur" />
+	
+	        <h:commandButton value="S'inscrire" action="#{inscriptionMB.inscrire}" styleClass="sansLabel" >
+	        		<f:ajax execute="@form" render="@form"/>
+	        </h:commandButton>
+	        <br />
+        	</h:form>
+        	<p>Déjà inscrit ?
+        		<h:outputLink value="login.xhtml">Se connecter</h:outputLink>
+		</p>
+      </div>
+      </div>
+    </h:body>
+</html>
